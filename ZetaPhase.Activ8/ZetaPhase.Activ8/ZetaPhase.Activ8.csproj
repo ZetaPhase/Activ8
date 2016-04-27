@@ -33,19 +33,38 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Upstream\SharpJS\ExaPhaser.SharpJS.Common\ExaPhaser.SharpJS.Common.csproj">
+      <Project>{5C3B6AAC-AEA4-4FF3-9A9C-05A040F12E72}</Project>
+      <Name>ExaPhaser.SharpJS.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Upstream\SharpJS\ExaPhaser\Frameworks\ExaPhaser.WebForms\ExaPhaser.WebForms.csproj">
+      <Project>{F8AB49DE-7804-49E4-B0C3-34B078FFC891}</Project>
+      <Name>ExaPhaser.WebForms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Upstream\SharpJS\Meta\Meta.csproj">
+      <Project>{37C67C73-1F58-49B8-A39E-768AC88C2447}</Project>
+      <Name>Meta</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Upstream\SharpJS\ExaPhaser\Libraries\SharpJS.Dom\SharpJS.Dom.csproj">
+      <Project>{60AC246F-639D-453C-99E7-B59093A4F0DE}</Project>
+      <Name>SharpJS.Dom</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Upstream\SharpJS\ExaPhaser\Libraries\SharpJS.JSLibraries\SharpJS.JSLibraries.csproj">
+      <Project>{D7F84A77-7A04-4FAE-87D6-C4A3F58418FB}</Project>
+      <Name>SharpJS.JSLibraries</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
