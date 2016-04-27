@@ -1,0 +1,3 @@
+[submodule "Upstream/SharpJS"]
+	path = Upstream/SharpJS
+	url = https://github.com/exaphaser/SharpJS.git
