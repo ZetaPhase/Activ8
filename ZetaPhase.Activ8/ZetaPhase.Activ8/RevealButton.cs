@@ -8,129 +8,90 @@ using System;
 
 namespace ZetaPhase.Activ8
 {
-    public sealed class RevealButton : TextControl
-    {
-        #region Private Fields
+	/// <summary>
+	/// A clickable rectangle that reveals and hides a Panel when clicked.
+	/// </summary>
+	public sealed class RevealButton : TextControl
+	{
+		#region Private Fields
 
-        private string _text;
-        private Element _buttonTriggerElement;
-        private DivElement _controlContainerElement;
-        private Button _dropDownBtn1;
-        private Panel _revealPanel;
-        private DivElement _revealArea;
-        
-        #endregion Private Fields
+		private string _text;
 
-        #region Public Constructors
+		#endregion Private Fields
 
-        /// <summary>
-        /// The DivElement that will be revealed and hidden when the button is clicked.
-        /// This must be initialized through an object initializer.
-        /// </summary>
-        public DivElement RevealArea { get { return _revealArea; } set { _controlContainerElement.AppendChild(value); _revealArea = value;  } }
-        public Panel RevealPanel { get { return _revealPanel; } set { this.Controls.Add(_revealPanel); } }
-        bool revealAreaVisible = false;
-        bool revealPanelVisible = false;
+		#region Public Constructors
 
-        public RevealButton()
-        {
-            switch (WebApplication.CurrentTheme.Stylesheet)
-            {
-                case CSSFramework.Foundation6:
-                    _buttonTriggerElement = new AnchorElement
-                    {
-                        Class = "button"
-                    };
-                    break;
+		public RevealButton()
+		{
+			switch (WebApplication.CurrentTheme.Stylesheet)
+			{
+				case CSSFramework.Foundation6:
+					InternalElement = new AnchorElement
+					{
+						Class = "button"
+					};
+					break;
 
-                case CSSFramework.PolyUI:
-                    _buttonTriggerElement = new AnchorElement
-                    {
-                        Class = "btn--default"
-                    };
-                    break;
+				case CSSFramework.PolyUI:
+					InternalElement = new AnchorElement
+					{
+						Class = "btn--default"
+					};
+					break;
 
-                case CSSFramework.Kubism:
-                    _buttonTriggerElement = new AnchorElement
-                    {
-                        Class = "btn"
-                    };
-                    break;
+				case CSSFramework.Kubism:
+					InternalElement = new AnchorElement
+					{
+						Class = "btn"
+					};
+					break;
 
-                default:
-                    _buttonTriggerElement = new AnchorElement
-                    {
-                        Class = "button"
-                    };
-                    break;
-            }
-            //we'll see
-            _dropDownBtn1 = new Button
-            {
-                Text = "Button",
-                Command = new DelegateCommand(()=>JSLibrary.Alert("You have clicked this amazing button")),
-            };
-            _revealPanel = new Panel();
-            _dropDownBtn1.Controls.Add(_revealPanel);
+				default:
+					InternalElement = new AnchorElement
+					{
+						Class = "button"
+					};
+					break;
+			}
+			Click += OnClick;
+			PerformLayout();
+		}
 
-            _controlContainerElement = new DivElement();
-            var containerJQElement = new JQElement(_controlContainerElement);
-            containerJQElement.Append(_buttonTriggerElement);
-            InternalElement = _controlContainerElement;
-            _buttonTriggerElement.Click += OnClick; //we are triggering on button click
-            PerformLayout();
-        }
+		#endregion Public Constructors
 
-        #endregion Public Constructors
+		#region Public Properties
 
-        #region Public Properties
+		public override string Text
+		{
+			get { return _text; }
+			set { SetText(value); }
+		}
 
-        public string Text
-        {
-            get { return _text; }
-            set { SetText(value); }
-        }
+		#endregion Public Properties
 
-        #endregion Public Properties
+		#region Private Methods
 
-        #region Public Events
+		private void OnClick(object sender, EventArgs e)
+		{
+			Command?.Execute(new ICommandParameter(e));
+		}
 
-        public event EventHandler Click;
+		private void SetText(string value)
+		{
+			InternalElement.TextContent = value;
+			_text = value;
+		}
 
-        #endregion Public Events
+		#endregion Private Methods
 
-        #region Private Methods
+		#region Command
 
-        private void OnClick(object sender, EventArgs e)
-        {
-            if (RevealPanel != null)
-            {
-                if (revealPanelVisible)
-                    _revealPanel.FadeOut();
-                else
-                    _revealPanel.FadeIn();
-                revealPanelVisible = !revealPanelVisible;
-            }
-            Click?.Invoke(this, e);
-            Command?.Execute(new ICommandParameter(e));
-        }
+		/// <summary>
+		/// The command fired when the button is clicked
+		/// </summary>
+		/// <value>The command.</value>
+		public ICommand Command { get; set; }
 
-        private void SetText(string value)
-        {
-            _buttonTriggerElement.TextContent = value;
-            _text = value;
-        }
-
-        #endregion Private Methods
-
-        #region Command
-
-        /// <summary>
-        /// The command fired when the button is clicked
-        /// </summary>
-        /// <value>The command.</value>
-        public ICommand Command { get; set; }
-
-        #endregion Command
-    }
+		#endregion Command
+	}
 }
