@@ -16,6 +16,8 @@ namespace ZetaPhase.Activ8
 		#region Private Fields
 
 		private string _text;
+		private Panel _revealPanel;
+		private bool _revealPanelVisible;
 
 		#endregion Private Fields
 
@@ -67,13 +69,40 @@ namespace ZetaPhase.Activ8
 			set { SetText(value); }
 		}
 
+		/// <summary>
+		/// The panel that is shown and hidden when the button is clicked
+		/// </summary>
+		/// <value>The reveal panel.</value>
+		public Panel RevealPanel
+		{
+			get { return _revealPanel; }
+			set { SetRevealPanel(value); }
+		}
+
 		#endregion Public Properties
 
 		#region Private Methods
 
 		private void OnClick(object sender, EventArgs e)
 		{
+			if (_revealPanel != null)
+			{
+				if (_revealPanelVisible)
+					_revealPanel.FadeOut();
+				else
+					_revealPanel.FadeIn();
+				_revealPanelVisible = !_revealPanelVisible;
+			}
 			Command?.Execute(new ICommandParameter(e));
+		}
+
+		private void SetRevealPanel(Panel newRevealPanel)
+		{
+			if (this.Controls.Contains(_revealPanel))
+				this.Controls.Remove(_revealPanel);
+			_revealPanel = newRevealPanel;
+			_revealPanelVisible = newRevealPanel.Visible;
+			this.Controls.Add(_revealPanel);
 		}
 
 		private void SetText(string value)
